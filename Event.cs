@@ -13,6 +13,6 @@ namespace Samuel_Labenne_Examen_Advanced
         public string Description { get; set; }
         public string Location { get; set; }
         public DateTime date { get; set; }
-        public Person[] invited { get; set; }
+        public  List<Person> invited { get; set; }
     }
 }
