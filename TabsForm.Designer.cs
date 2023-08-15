@@ -1,6 +1,6 @@
 ﻿namespace Samuel_Labenne_Examen_Advanced
 {
-    partial class Form2
+    partial class TabsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -35,11 +35,17 @@
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
+            tabPage3 = new TabPage();
+            dataGridView3 = new DataGridView();
+            btnInvites = new Button();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
+            tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -85,20 +91,22 @@
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
-            tabControl1.Location = new Point(3, 12);
+            tabControl1.Controls.Add(tabPage3);
+            tabControl1.Location = new Point(3, 56);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(798, 433);
+            tabControl1.Size = new Size(798, 519);
             tabControl1.TabIndex = 5;
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(button2);
             tabPage1.Controls.Add(button1);
             tabPage1.Controls.Add(dataGridView1);
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(790, 405);
+            tabPage1.Size = new Size(790, 491);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "My Events";
             tabPage1.UseVisualStyleBackColor = true;
@@ -110,24 +118,66 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(790, 405);
+            tabPage2.Size = new Size(790, 491);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "People";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // Form2
+            // tabPage3
+            // 
+            tabPage3.Controls.Add(dataGridView3);
+            tabPage3.Controls.Add(btnInvites);
+            tabPage3.Location = new Point(4, 24);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Size = new Size(790, 491);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "Invites";
+            tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView3
+            // 
+            dataGridView3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView3.Location = new Point(37, 89);
+            dataGridView3.Name = "dataGridView3";
+            dataGridView3.Size = new Size(716, 312);
+            dataGridView3.TabIndex = 5;
+            // 
+            // btnInvites
+            // 
+            btnInvites.Location = new Point(281, 20);
+            btnInvites.Name = "btnInvites";
+            btnInvites.Size = new Size(228, 23);
+            btnInvites.TabIndex = 3;
+            btnInvites.Text = "Load invites";
+            btnInvites.UseVisualStyleBackColor = true;
+            btnInvites.Click += btnInvites_Click;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(303, 391);
+            button2.Name = "button2";
+            button2.Size = new Size(228, 23);
+            button2.TabIndex = 4;
+            button2.Text = "Delete";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // TabsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 573);
             Controls.Add(tabControl1);
-            Name = "Form2";
+            Name = "TabsForm";
             Text = "Form2";
+            Load += TabsForm_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
+            tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView3).EndInit();
             ResumeLayout(false);
         }
 
@@ -140,5 +190,9 @@
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
+        private TabPage tabPage3;
+        private DataGridView dataGridView3;
+        private Button btnInvites;
+        private Button button2;
     }
 }

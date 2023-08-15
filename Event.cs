@@ -12,7 +12,8 @@ namespace Samuel_Labenne_Examen_Advanced
         public string Name { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
-        public DateTime date { get; set; }
-        public  List<Person> invited { get; set; }
+        public DateTime Date { get; set; }
+        //public  List<Person> Invited { get; set; }
+        public string Invited { get; set; }
     }
 }

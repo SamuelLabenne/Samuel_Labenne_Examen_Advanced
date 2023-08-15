@@ -1,6 +1,6 @@
 ﻿namespace Samuel_Labenne_Examen_Advanced
 {
-    partial class Form1
+    partial class MdiParent
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             button2 = new Button();
+            btnNewEvent = new Button();
             SuspendLayout();
             // 
             // button2
@@ -41,19 +42,31 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
-            // Form1
+            // btnNewEvent
+            // 
+            btnNewEvent.Location = new Point(225, 41);
+            btnNewEvent.Name = "btnNewEvent";
+            btnNewEvent.Size = new Size(149, 23);
+            btnNewEvent.TabIndex = 6;
+            btnNewEvent.Text = "Nieuw Event";
+            btnNewEvent.UseVisualStyleBackColor = true;
+            btnNewEvent.Click += btnNewEvent_Click;
+            // 
+            // MdiParent
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(225, 129);
+            ClientSize = new Size(1585, 619);
+            Controls.Add(btnNewEvent);
             Controls.Add(button2);
             IsMdiContainer = true;
-            Name = "Form1";
+            Name = "MdiParent";
             Text = "Form1";
             ResumeLayout(false);
         }
 
         #endregion
         private Button button2;
+        private Button btnNewEvent;
     }
 }
