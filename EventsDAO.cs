@@ -14,7 +14,7 @@ namespace Samuel_Labenne_Examen_Advanced
 {
     internal class EventsDAO
     {
-        
+        public event EventHandler EventsRetrieved;
         static string info = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\", "EventsDBB.mdf"));
         string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;" +
                                      $"AttachDbFilename={info};" +
@@ -25,38 +25,48 @@ namespace Samuel_Labenne_Examen_Advanced
         public List<Person> people = new List<Person>();
         public List<Invite> invites = new List<Invite>();
 
+
         public List<Event> getAllEvents()
         {
             List<Event> events = new List<Event>();
 
-            SqlConnection connection = new SqlConnection(connectionString);
-            SqlCommand command = new SqlCommand("SELECT Id, Name, Description, Location, Date, Invited FROM Events", connection);
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
 
-            connection.Open();
+                    SqlCommand command = new SqlCommand("SELECT Id, Name, Description, Location, Date, Invited FROM Events", connection);
 
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Event ev = new Event
+                            {
+                                Id = reader.GetInt32(0),
+                                Name = reader.GetString(1),
+                                Description = reader.GetString(2),
+                                Location = reader.GetString(3),
+                                Date = reader.GetDateTime(4),
+                                Invited = reader.GetString(5)
+                            };
 
+                            events.Add(ev);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                MessageBox.Show("An error occurred while retrieving events", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             
-            using (SqlDataReader reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    events.Add(new Event()
-                    {
-                        Id = reader.GetInt32(0),
-                        Name = reader.GetString(1),
-                        Description = reader.GetString(2),
-                        Location = reader.GetString(3),
-                        Date = reader.GetDateTime(4),
-                        Invited = reader.GetString(5),
-                    });
+            EventsRetrieved?.Invoke(this, EventArgs.Empty);
 
-                }
-
-                connection.Close();
-
-                return events;
-            }
+            return events;
         }
 
         public void populateList()
@@ -91,60 +101,46 @@ namespace Samuel_Labenne_Examen_Advanced
 
         public List<Person> getAllPeople()
         {
-            List<Person> people = new List<Person>();
-
-           
-
-            SqlConnection connection = new SqlConnection(connectionString);
-            SqlCommand command = new SqlCommand("SELECT Id, Name, Age FROM People", connection);
-
-            connection.Open();
-
-            using (SqlDataReader reader = command.ExecuteReader())
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                while (reader.Read())
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("SELECT Id, Name, Age FROM People", connection);
+
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    people.Add(new Person()
-                    {
-                        Id = reader.GetInt32(0),
-                        Name = reader.GetString(1),
-                        Age = reader.GetInt32(2)
-                    });
-
+                    return Enumerable.Range(0, int.MaxValue)
+                                     .Select(_ => reader.Read() ? new Person
+                                     {
+                                         Id = reader.GetInt32(0),
+                                         Name = reader.GetString(1),
+                                         Age = reader.GetInt32(2)
+                                     } : null)
+                                     .TakeWhile(p => p != null)
+                                     .ToList();
                 }
-
-                connection.Close();
-
-                return people;
             }
         }
         public List<Invite> getAllInvites()
         {
-            List<Invite> invites = new List<Invite>();
-
-
-
-            SqlConnection connection = new SqlConnection(connectionString);
-            SqlCommand command = new SqlCommand("SELECT Id, PersonId, EventId FROM Invites", connection);
-
-            connection.Open();
-
-            using (SqlDataReader reader = command.ExecuteReader())
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                while (reader.Read())
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("SELECT Id, PersonId, EventId FROM Invites", connection);
+
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    invites.Add(new Invite()
-                    {
-                        Id = reader.GetInt32(0),
-                        PersonId = reader.GetInt32(0),
-                        EventId = reader.GetInt32(2)
-                    });
-
+                    return Enumerable.Range(0, int.MaxValue)
+                                     .Select(_ => reader.Read() ? new Invite
+                                     {
+                                         Id = reader.GetInt32(0),
+                                         PersonId = reader.GetInt32(1),
+                                         EventId = reader.GetInt32(2)
+                                     } : null)
+                                     .TakeWhile(i => i != null)
+                                     .ToList();
                 }
-
-                connection.Close();
-
-                return invites;
             }
         }
     }

@@ -16,6 +16,8 @@ namespace Samuel_Labenne_Examen_Advanced
 
 
     {
+       
+
         BindingSource eventBindingSource = new BindingSource();
         BindingSource peopleBindingSource = new BindingSource();
         BindingSource inviteBindingSource = new BindingSource();
@@ -38,51 +40,71 @@ namespace Samuel_Labenne_Examen_Advanced
         public NewEventForm()
         {
             InitializeComponent();
+            
         }
+
 
 
 
 
         private void btnSubmit_Click_1(object sender, EventArgs e)
         {
-            connection.Open();
-
-            Event ev = new Event { Name = tbName.Text, Description = tbDescription.Text, Location = tbLocation.Text, Date = dateTimePicker1.Value, Invited = comboBox1.Text };
-            var p = (Person)comboBox1.SelectedItem;
-            Invite invite = new Invite { PersonId = p.Id, EventId = ev.Id };
-
-            string insertEventQuery = "INSERT INTO Events (Name, Description, Location, Date, Invited) " +
-                                  "VALUES (@Name, @Description, @Location, @Date, @Invited)";
-
-            using (SqlCommand command = new SqlCommand(insertEventQuery, connection))
+            try
             {
-                command.Parameters.AddWithValue("@Name", ev.Name);
-                command.Parameters.AddWithValue("@Description", ev.Description);
-                command.Parameters.AddWithValue("@Location", ev.Location);
-                command.Parameters.AddWithValue("@Date", ev.Date);
-                command.Parameters.AddWithValue("@Invited", ev.Invited);
+                connection.Open();
 
-                command.ExecuteNonQuery();
+                Event ev = new Event { Name = tbName.Text, Description = tbDescription.Text, Location = tbLocation.Text, Date = dateTimePicker1.Value, Invited = comboBox1.Text };
+                var p = (Person)comboBox1.SelectedItem;
+                Invite invite = new Invite { PersonId = p.Id, EventId = ev.Id };
 
+                string insertEventQuery = "INSERT INTO Events (Name, Description, Location, Date, Invited) " +
+                                          "VALUES (@Name, @Description, @Location, @Date, @Invited)";
+
+                using (SqlCommand command = new SqlCommand(insertEventQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Name", ev.Name);
+                    command.Parameters.AddWithValue("@Description", ev.Description);
+                    command.Parameters.AddWithValue("@Location", ev.Location);
+                    command.Parameters.AddWithValue("@Date", ev.Date);
+                    command.Parameters.AddWithValue("@Invited", ev.Invited);
+
+                    command.ExecuteNonQuery();
+                }
+
+                //createInvite(invite.PersonId, invite.EventId);
+
+                //MessageBox.Show("Event inserted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            catch (Exception ex)
+            {
+               
+                MessageBox.Show("An error occurred while submitting the event", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
 
-            /*string insertInviteQuery = "INSERT INTO Invites (PersonId, EventId) VALUES (@PersonId, @EventId)";
 
+
+        private void createInvite(int a, int b)
+
+        {
+            string insertInviteQuery = "INSERT INTO Invites (PersonId, EventId) VALUES (@PersonId, @EventId)";
             using (SqlCommand command = new SqlCommand(insertInviteQuery, connection))
             {
-                command.Parameters.AddWithValue("@PersonId", invite.PersonId);
-                command.Parameters.AddWithValue("@EventId", invite.EventId);
+                command.Parameters.AddWithValue("@PersonId", a);
+                command.Parameters.AddWithValue("@EventId", b);
 
                 command.ExecuteNonQuery();
-            }*/
+            }
+            
             connection.Close();
 
         }
 
-        private void createInvite()
-        {
-
-        }
+    
 
         private void label3_Click(object sender, EventArgs e)
         {
@@ -103,27 +125,32 @@ namespace Samuel_Labenne_Examen_Advanced
         private void NewEventForm_Load(object sender, EventArgs e)
         {
 
-            EventsDAO eventsDAO = new EventsDAO();
 
-            eventsDAO.people = eventsDAO.getAllPeople();
-
-            if (eventsDAO.people.Count == 1)
+            try
             {
-                eventsDAO.populateList();
+                EventsDAO eventsDAO = new EventsDAO();
+
+                eventsDAO.people = eventsDAO.getAllPeople();
+
+                if (eventsDAO.people.Count == 1)
+                {
+                    eventsDAO.populateList();
+                }
+
+                peopleBindingSource.DataSource = eventsDAO.people;
+                comboBox1.DataSource = eventsDAO.people;
+                comboBox1.ValueMember = "Id";
+                comboBox1.DisplayMember = "Name";
+            }
+            catch (Exception ex)
+            {
+                
+                MessageBox.Show("An error occurred while loading the form", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-
-            peopleBindingSource.DataSource = eventsDAO.people;
-
-          
-
-
-            comboBox1.DataSource = eventsDAO.people;
-            comboBox1.ValueMember = "Id";
-            comboBox1.DisplayMember = "Name";
-
-
         }
+        
+
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {

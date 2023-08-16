@@ -16,7 +16,7 @@ namespace Samuel_Labenne_Examen_Advanced
         BindingSource eventBindingSource = new BindingSource();
         BindingSource peopleBindingSource = new BindingSource();
         BindingSource inviteBindingSource = new BindingSource();
-        int id;
+        //int id;
 
         public TabsForm()
         {
@@ -26,6 +26,9 @@ namespace Samuel_Labenne_Examen_Advanced
         private void button1_Click(object sender, EventArgs e)
         {
             EventsDAO eventsDAO = new EventsDAO();
+            eventsDAO.EventsRetrieved += EventsDAO_EventsRetrieved;
+
+            
 
             eventsDAO.events = eventsDAO.getAllEvents();
 
@@ -34,6 +37,10 @@ namespace Samuel_Labenne_Examen_Advanced
 
             dataGridView1.DataSource = eventsDAO.events;
         }
+        private void EventsDAO_EventsRetrieved(object sender, EventArgs e)
+            {
+                MessageBox.Show("Events retrieved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -81,5 +88,6 @@ namespace Samuel_Labenne_Examen_Advanced
         {
 
         }
+
     }
 }
