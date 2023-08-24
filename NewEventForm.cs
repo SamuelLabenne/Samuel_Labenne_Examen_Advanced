@@ -73,10 +73,7 @@ namespace Samuel_Labenne_Examen_Advanced
 
                     command.ExecuteNonQuery();
                 }
-                
-                
-
-                string test = invite.EventId.ToString();
+               
                 createInvite(invite.PersonId, invite.EventId);
 
                 MessageBox.Show("Event inserted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
