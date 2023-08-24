@@ -151,18 +151,7 @@ namespace Samuel_Labenne_Examen_Advanced
         }
         public List<Invite> getAllInvites()
         {
-            /*invites = new List<Invite>();
-            var query = from i in invites
-                        join p in people on i.PersonId equals p.Id
-                        join e in events on i.EventId equals e.Id
-                        select new
-                        {
-                            Person = p.Name,
-                            evenement = e.Name
-
-                        };
-        invites: query.ToList();
-            return invites;*/
+            
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
