@@ -76,12 +76,15 @@ namespace Samuel_Labenne_Examen_Advanced
         {
             EventsDAO eventsDAO = new EventsDAO();
 
-            eventsDAO.invites = eventsDAO.getAllInvites();
+            //eventsDAO.invites = eventsDAO.getAllInvites();
+            inviteBindingSource.DataSource = eventsDAO.GetPeopleAndEventsByInvites();
+            dataGridView3.DataSource = eventsDAO.GetPeopleAndEventsByInvites();
+
+            //inviteBindingSource.DataSource = eventsDAO.invites;
 
 
-            inviteBindingSource.DataSource = eventsDAO.invites;
+            //dataGridView3.DataSource = eventsDAO.invites;
 
-            dataGridView3.DataSource = eventsDAO.invites;
         }
 
         private void button2_Click(object sender, EventArgs e)

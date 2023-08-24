@@ -59,11 +59,11 @@ namespace Samuel_Labenne_Examen_Advanced
             }
             catch (Exception ex)
             {
-                
+
                 MessageBox.Show("An error occurred while retrieving events", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            
+
             EventsRetrieved?.Invoke(this, EventArgs.Empty);
 
             return events;
@@ -82,8 +82,8 @@ namespace Samuel_Labenne_Examen_Advanced
             {
 
 
-                SqlCommand command = new SqlCommand("insert into People values(@Name,@Age)", connection); 
-                
+                SqlCommand command = new SqlCommand("insert into People values(@Name,@Age)", connection);
+
                 connection.Open();
 
                 foreach (Person person in people)
@@ -121,14 +121,56 @@ namespace Samuel_Labenne_Examen_Advanced
                 }
             }
         }
-        public List<Invite> getAllInvites()
+
+        public List<Tuple<string, string>> GetPeopleAndEventsByInvites()
         {
+            List<Tuple<string, string>> results = new List<Tuple<string, string>>();
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                SqlCommand command = new SqlCommand("SELECT Id, PersonId, EventId FROM Invites", connection);
+                SqlCommand command = new SqlCommand("SELECT P.Name AS PersonName, E.Name AS EventName " +
+                                                    "FROM Invites I " +
+                                                    "INNER JOIN People P ON I.PersonId = P.Id " +
+                                                    "INNER JOIN Events E ON I.EventId = E.Id", connection);
 
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string personName = reader.GetString(reader.GetOrdinal("PersonName"));
+                        string eventName = reader.GetString(reader.GetOrdinal("EventName"));
+
+                        results.Add(Tuple.Create(personName, eventName));
+                    }
+                }
+            }
+
+            return results;
+        }
+        public List<Invite> getAllInvites()
+        {
+            /*invites = new List<Invite>();
+            var query = from i in invites
+                        join p in people on i.PersonId equals p.Id
+                        join e in events on i.EventId equals e.Id
+                        select new
+                        {
+                            Person = p.Name,
+                            evenement = e.Name
+
+                        };
+        invites: query.ToList();
+            return invites;*/
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+
+
+
+                SqlCommand command = new SqlCommand("SELECT Id, PersonId, EventId FROM Invites", connection);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     return Enumerable.Range(0, int.MaxValue)
@@ -145,3 +187,4 @@ namespace Samuel_Labenne_Examen_Advanced
         }
     }
 }
+
