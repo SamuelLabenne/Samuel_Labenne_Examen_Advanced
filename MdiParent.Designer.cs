@@ -34,11 +34,11 @@
             // 
             // button2
             // 
-            button2.Location = new Point(76, 41);
+            button2.Location = new Point(46, 41);
             button2.Name = "button2";
-            button2.Size = new Size(75, 23);
+            button2.Size = new Size(159, 23);
             button2.TabIndex = 4;
-            button2.Text = "Open App";
+            button2.Text = "View data";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
@@ -46,7 +46,7 @@
             // 
             btnNewEvent.Location = new Point(225, 41);
             btnNewEvent.Name = "btnNewEvent";
-            btnNewEvent.Size = new Size(149, 23);
+            btnNewEvent.Size = new Size(178, 23);
             btnNewEvent.TabIndex = 6;
             btnNewEvent.Text = "Nieuw Event";
             btnNewEvent.UseVisualStyleBackColor = true;
@@ -62,6 +62,7 @@
             IsMdiContainer = true;
             Name = "MdiParent";
             Text = "Form1";
+            WindowState = FormWindowState.Maximized;
             ResumeLayout(false);
         }
 

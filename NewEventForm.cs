@@ -58,7 +58,8 @@ namespace Samuel_Labenne_Examen_Advanced
                 Invite invite = new Invite { PersonId = p.Id, EventId = ev.Id };
 
                 string insertEventQuery = "INSERT INTO Events (Name, Description, Location, Date, Invited) " +
-                                          "VALUES (@Name, @Description, @Location, @Date, @Invited)";
+                                          "VALUES (@Name, @Description, @Location, @Date, @Invited)" +
+                          "SELECT SCOPE_IDENTITY();"; 
 
                 using (SqlCommand command = new SqlCommand(insertEventQuery, connection))
                 {
@@ -67,13 +68,20 @@ namespace Samuel_Labenne_Examen_Advanced
                     command.Parameters.AddWithValue("@Location", ev.Location);
                     command.Parameters.AddWithValue("@Date", ev.Date);
                     command.Parameters.AddWithValue("@Invited", ev.Invited);
+                    int eventId = Convert.ToInt32(command.ExecuteScalar());
+                    invite.EventId = eventId;
 
                     command.ExecuteNonQuery();
                 }
+                
+                
 
-                //createInvite(invite.PersonId, invite.EventId);
+                string test = invite.EventId.ToString();
+                createInvite(invite.PersonId, invite.EventId);
 
-                //MessageBox.Show("Event inserted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Event inserted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+               
+
             }
             catch (Exception ex)
             {

@@ -11,6 +11,11 @@ namespace Samuel_Labenne_Examen_Advanced
 
         private void button2_Click(object sender, EventArgs e)
         {
+            foreach (Form c in this.MdiChildren)
+            {
+                c.Close();
+            }
+
             TabsForm child = new TabsForm();
             child.MdiParent = this;
             child.Show();
@@ -23,6 +28,10 @@ namespace Samuel_Labenne_Examen_Advanced
 
         private void btnNewEvent_Click(object sender, EventArgs e)
         {
+            foreach (Form c in this.MdiChildren)
+            {
+                c.Close();
+            }
             NewEventForm child = new NewEventForm();
             child.MdiParent = this;
             child.Show();
